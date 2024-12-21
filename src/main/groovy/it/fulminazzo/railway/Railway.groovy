@@ -8,8 +8,13 @@ import org.jetbrains.annotations.NotNull
 class Railway {
     static final DEFAULT_PORT = 80
 
-    // <port> <rootDir>
+    /**
+     * Main access point of the application.
+     *
+     * @param args the arguments passed
+     */
     static void main(String[] args) {
+        Railway server
         try {
             def port = DEFAULT_PORT
             def rootDir = System.getProperty('user.dir')
@@ -24,9 +29,12 @@ class Railway {
             }
             if (args.length > 1) rootDir = args[1]
 
-
+            server = new Railway(port, rootDir)
+            server.start()
         } catch (RailwayException | ContentHandlerException e) {
             System.err.println(e.message)
+        } finally {
+            if (server != null) server.stop()
         }
     }
 
