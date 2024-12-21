@@ -21,4 +21,16 @@ class ContentHandlerTest extends Specification {
         read == "<!--It works!-->"
     }
 
+    def "test no extension index.html"() {
+        given:
+        def path = "test_simple/index"
+
+        when:
+        def stream = this.contentHandler.parsePath(path)
+        def read = new String(stream.bytes)
+
+        then:
+        read == "<!--It works!-->"
+    }
+
 }
