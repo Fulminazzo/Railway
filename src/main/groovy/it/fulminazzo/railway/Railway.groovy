@@ -24,7 +24,8 @@ class Railway {
             }
             if (args.length > 1) rootDir = args[1]
 
-        } catch (RailwayException e) {
+
+        } catch (RailwayException | ContentHandlerException e) {
             System.err.println(e.message)
         }
     }
