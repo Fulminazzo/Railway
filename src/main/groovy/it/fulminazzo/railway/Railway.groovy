@@ -15,6 +15,8 @@ class Railway {
             def rootDir = System.getProperty('user.dir')
 
             if (args.length > 0) port = getPort(args[0])
+            if (args.length > 1) rootDir = args[1]
+
         } catch (RailwayException e) {
             System.err.println(e.message)
         }
