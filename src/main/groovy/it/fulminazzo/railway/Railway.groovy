@@ -14,5 +14,21 @@ class Railway {
         def rootDir = System.getProperty('user.dir')
 
     }
-    
+
+    /**
+     * Represents an exception thrown by this class.
+     */
+    static class RailwayException extends Exception {
+
+        /**
+         * Instantiates a new RailwayException
+         *
+         * @param message the message
+         */
+        RailwayException(@NotNull String message) {
+            super(Objects.requireNonNull(message, 'Expected message to be not null'))
+        }
+
+    }
+
 }
