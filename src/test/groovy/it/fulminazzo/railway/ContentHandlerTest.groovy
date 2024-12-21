@@ -9,4 +9,16 @@ class ContentHandlerTest extends Specification {
         this.contentHandler = new ContentHandler('build/resources/test')
     }
 
+    def "test simple index.html"() {
+        given:
+        def path = "test_simple/index.html"
+
+        when:
+        def stream = this.contentHandler.parsePath(path)
+        def read = new String(stream.bytes)
+
+        then:
+        read == "<!--It works!-->"
+    }
+
 }
