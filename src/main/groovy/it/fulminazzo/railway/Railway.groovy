@@ -1,5 +1,6 @@
 package it.fulminazzo.railway
 
+import com.sun.net.httpserver.HttpServer
 import org.jetbrains.annotations.NotNull
 
 /**
@@ -7,6 +8,22 @@ import org.jetbrains.annotations.NotNull
  */
 class Railway {
     static final DEFAULT_PORT = 80
+
+    final int port
+    final HttpServer server
+    final ContentHandler contentHandler
+
+    /**
+     * Instantiates a new Railway server
+     *
+     * @param port the port
+     * @param rootDir the root directory
+     */
+    Railway(int port, @NotNull String rootDir) {
+        this.port = port
+        this.server = HttpServer.create(new InetSocketAddress(port), 0)
+        this.contentHandler = new ContentHandler(rootDir)
+    }
 
     /**
      * Main access point of the application.
