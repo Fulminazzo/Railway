@@ -46,20 +46,4 @@ class Railway {
         throw new RailwayException("Invalid port \"${string}\". A number higher than 0 is required.")
     }
 
-    /**
-     * Represents an exception thrown by this class.
-     */
-    static class RailwayException extends Exception {
-
-        /**
-         * Instantiates a new RailwayException
-         *
-         * @param message the message
-         */
-        RailwayException(@NotNull String message) {
-            super(Objects.requireNonNull(message, 'Expected message to be not null'))
-        }
-
-    }
-
 }
