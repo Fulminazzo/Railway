@@ -18,12 +18,12 @@ class ContentHandlerTest extends Specification {
         read == "<!--It works!-->"
 
         where:
-        path << ["test_simple/index.html", "test_simple/index", "test_simple/", "test_simple"]
+        path << ["content_handler/index.html", "content_handler/index", "content_handler/", "content_handler"]
     }
 
     def "test style.css"() {
         given:
-        def path = "test_simple/style.css"
+        def path = "content_handler/style.css"
 
         when:
         def stream = this.contentHandler.parsePath(path)
