@@ -1,11 +1,13 @@
 package it.fulminazzo.railway
 
+import com.sun.net.httpserver.HttpExchange
+import com.sun.net.httpserver.HttpHandler
 import org.jetbrains.annotations.NotNull
 
 /**
  * A class responsible for correctly handling paths and returning appropriate files.
  */
-class ContentHandler {
+class ContentHandler implements HttpHandler {
     static final INDEX_NAME = 'index.html'
 
     final @NotNull File root
@@ -64,4 +66,22 @@ class ContentHandler {
             }
         }
     }
+
+    @Override
+    void handle(HttpExchange httpExchange) throws IOException {
+        def response = 200
+        InputStream stream
+        try {
+            def path = httpExchange.requestURI.path
+            stream = parsePath(path)
+        } catch (ContentHandlerException e) {
+            //TODO: 404 page
+            throw new RuntimeException(e)
+        }
+        httpExchange.sendResponseHeaders(response, stream.available())
+        def output = httpExchange.getResponseBody()
+        output << stream
+        output.close()
+    }
+
 }
