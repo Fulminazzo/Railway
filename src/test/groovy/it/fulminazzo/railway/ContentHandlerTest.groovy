@@ -9,28 +9,28 @@ class ContentHandlerTest extends Specification {
         this.contentHandler = new ContentHandler('build/resources/test')
     }
 
-    def "test path: #path"() {
+    def 'test path: #path'() {
         when:
         def stream = this.contentHandler.parsePath(path)
         def read = new String(stream.bytes)
 
         then:
-        read == "<!--It works!-->"
+        read == '<!--It works!-->'
 
         where:
-        path << ["content_handler/index.html", "content_handler/index", "content_handler/", "content_handler"]
+        path << ['content_handler/index.html', 'content_handler/index', 'content_handler/', 'content_handler']
     }
 
-    def "test style.css"() {
+    def 'test style.css'() {
         given:
-        def path = "content_handler/style.css"
+        def path = 'content_handler/style.css'
 
         when:
         def stream = this.contentHandler.parsePath(path)
         def read = new String(stream.bytes)
 
         then:
-        read == "/*It works!*/"
+        read == '/*It works!*/'
     }
 
 }
