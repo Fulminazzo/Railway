@@ -22,6 +22,17 @@ class ContentHandler {
     }
 
     /**
+     * Uses {@link #resolvePath(String)} to find the most appropriate file and returns an input stream of it.
+     *
+     * @param path the path
+     * @return the input stream
+     * @throws ContentHandlerException
+     */
+    @NotNull InputStream parsePath(@NotNull String path) throws ContentHandlerException {
+        return resolvePath(path).newInputStream()
+    }
+
+    /**
      * Resolves the given path by:
      * <ul>
      *     <li>if it contains a file extension, it searches for the file in the file system;</li>
@@ -34,7 +45,7 @@ class ContentHandler {
      * @return the file
      * @throws ContentHandlerException the exception thrown in case of error
      */
-    File resolvePath(@NotNull String path) throws ContentHandlerException {
+    @NotNull File resolvePath(@NotNull String path) throws ContentHandlerException {
         def file = new File(this.root, path)
         if (file.isFile()) return file
         else if (file.isDirectory()) {
