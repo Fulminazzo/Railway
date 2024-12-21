@@ -33,4 +33,16 @@ class ContentHandlerTest extends Specification {
         read == "<!--It works!-->"
     }
 
+    def "test style.css"() {
+        given:
+        def path = "test_simple/style.css"
+
+        when:
+        def stream = this.contentHandler.parsePath(path)
+        def read = new String(stream.bytes)
+
+        then:
+        read == "/*It works!*/"
+    }
+
 }
