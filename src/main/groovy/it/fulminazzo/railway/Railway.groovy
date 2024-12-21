@@ -14,7 +14,14 @@ class Railway {
             def port = DEFAULT_PORT
             def rootDir = System.getProperty('user.dir')
 
-            if (args.length > 0) port = getPort(args[0])
+            if (args.length > 0) {
+                if (args[0] == '--help' || args[0] == "-h") {
+                    println 'Usage: java -jar railway.jar <port> <rootDir>'
+                    println 'The port and rootDir parameters are optional.'
+                    return
+                }
+                port = getPort(args[0])
+            }
             if (args.length > 1) rootDir = args[1]
 
         } catch (RailwayException e) {
