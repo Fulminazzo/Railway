@@ -26,6 +26,22 @@ class Railway {
     }
 
     /**
+     * Starts the server.
+     */
+    void start() {
+        this.server.createContext('/', this.contentHandler)
+        this.server.setExecutor(null)
+        this.server.start()
+    }
+
+    /**
+     * Stops the server.
+     */
+    void stop() {
+        this.server.stop(0)
+    }
+
+    /**
      * Main access point of the application.
      *
      * @param args the arguments passed
