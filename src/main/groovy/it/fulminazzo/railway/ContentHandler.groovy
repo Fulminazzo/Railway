@@ -24,17 +24,6 @@ class ContentHandler implements HttpHandler {
     }
 
     /**
-     * Uses {@link #resolvePath(String)} to find the most appropriate file and returns an input stream of it.
-     *
-     * @param path the path
-     * @return the input stream
-     * @throws ContentHandlerException
-     */
-    @NotNull InputStream parsePath(@NotNull String path) throws ContentHandlerException {
-        return resolvePath(path).newInputStream()
-    }
-
-    /**
      * Resolves the given path by:
      * <ul>
      *     <li>if it contains a file extension, it searches for the file in the file system;</li>
