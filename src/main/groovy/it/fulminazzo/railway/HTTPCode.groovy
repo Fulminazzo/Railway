@@ -31,7 +31,11 @@ enum HTTPCode {
      * @return the message
      */
     @NotNull String getMessage() {
-        //TODO:
+        def name = name()
+        if (name == 'OK') return name
+        else return (name =~ /([A-Z])([A-Z]*)(_|$)/).replaceAll { match ->
+            "${match.group(1)}${match.group(2).toLowerCase()}${match.group(3) == '_' ? ' ' : ''}".toString()
+        }
     }
 
 }
