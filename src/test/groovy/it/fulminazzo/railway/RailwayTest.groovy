@@ -57,6 +57,25 @@ class RailwayTest extends Specification {
         connection.errorStream.bytes == notFoundFile.bytes
     }
 
+    def 'test get not found with no page'() {
+        given:
+        def server = new Railway(PORT + 1, THREADS, ROOT_DIR, null)
+        server.start()
+        def path = 'non_existing'
+        def url = new URL("http://localhost:${PORT + 1}/${path}")
+        HttpURLConnection connection = url.openConnection() as HttpURLConnection
+
+        when:
+        connection.setRequestMethod('GET')
+        connection.connect()
+
+        then:
+        connection.getResponseCode() == 404
+        connection.contentLengthLong == -1
+        connection.errorStream.available() == 0
+        server.stop()
+    }
+
     def 'test invalid method: #method'() {
         given:
         def path = 'content_handler'
