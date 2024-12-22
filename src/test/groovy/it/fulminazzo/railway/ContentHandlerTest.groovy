@@ -4,10 +4,12 @@ import org.slf4j.LoggerFactory
 import spock.lang.Specification
 
 class ContentHandlerTest extends Specification {
+    final static String ROOT_DIR = 'build/resources/test'
+
     def contentHandler
 
     void setup() {
-        this.contentHandler = new ContentHandler('build/resources/test',
+        this.contentHandler = new ContentHandler(ROOT_DIR,
                 null,
                 LoggerFactory.getLogger(getClass()))
     }
@@ -18,7 +20,7 @@ class ContentHandlerTest extends Specification {
         def read = new String(stream.bytes)
 
         then:
-        read == '<!--It works!-->'
+        read == new String(new File(ROOT_DIR, 'content_handler/index.html').bytes)
 
         where:
         path << ['content_handler/index.html', 'content_handler/index', 'content_handler/', 'content_handler']
@@ -33,7 +35,7 @@ class ContentHandlerTest extends Specification {
         def read = new String(stream.bytes)
 
         then:
-        read == '/*It works!*/'
+        read == new String(new File(ROOT_DIR, path).bytes)
     }
 
 }
