@@ -73,7 +73,7 @@ class RailwayTest extends Specification {
         ContentHandler.requestWebsite("http://localhost:${PORT}/non_existing", 'GET')
 
         then:
-        thrown(ContentHandlerException)
+        thrown(IllegalArgumentException)
     }
 
     def 'test get not found with no page'() {

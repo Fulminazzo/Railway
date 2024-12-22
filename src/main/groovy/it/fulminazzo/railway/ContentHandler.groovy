@@ -203,10 +203,10 @@ class ContentHandler implements HttpHandler {
      * @param method  the HTTP method
      * @param headers the headers to use for the connection
      * @return the body
-     * @throws ContentHandlerException thrown in case of any error
+     * @throws IllegalArgumentException thrown in case of any error
      */
     static @NotNull InputStream requestWebsite(@NotNull String link, @NotNull String method,
-                                               @Nullable Map<String, String> headers) throws ContentHandlerException {
+                                               @Nullable Map<String, String> headers) throws IllegalArgumentException {
         try {
             def url = new URL(link)
             HttpURLConnection connection = url.openConnection() as HttpURLConnection
@@ -216,7 +216,7 @@ class ContentHandler implements HttpHandler {
 
             return connection.inputStream
         } catch (IOException e) {
-            throw new ContentHandlerException("Could not ${method} website: ${link}", e)
+            throw new IllegalArgumentException("Could not ${method} website: ${link}", e)
         }
     }
 
