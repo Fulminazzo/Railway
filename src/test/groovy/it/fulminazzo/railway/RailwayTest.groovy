@@ -42,6 +42,21 @@ class RailwayTest extends Specification {
         connection.inputStream.bytes == new File("${ROOT_DIR}/${path}", 'index.html').bytes
     }
 
+    def 'test head'() {
+        given:
+        def path = 'content_handler'
+        def url = new URL("http://localhost:${PORT}/${path}")
+        HttpURLConnection connection = url.openConnection() as HttpURLConnection
+
+        when:
+        connection.setRequestMethod('HEAD')
+        connection.connect()
+
+        then:
+        connection.getResponseCode() == 200
+        connection.inputStream.bytes == new byte[0]
+    }
+
     def 'test request website'() {
         given:
         def path = 'content_handler'

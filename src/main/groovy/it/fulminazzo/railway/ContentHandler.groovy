@@ -144,6 +144,10 @@ class ContentHandler implements HttpHandler {
 
         switch (method) {
             case 'GET' -> response = handleGET(httpExchange, path)
+            case 'HEAD' -> {
+                response = handleGET(httpExchange, path)
+                response.body = new ByteArrayInputStream(new byte[0])
+            }
             default -> response = new HTTPResponse(HTTPCode.NOT_IMPLEMENTED)
         }
 
@@ -247,7 +251,7 @@ class ContentHandler implements HttpHandler {
         final int responseCode
         final Map<String, List<String>> headers
         final String message
-        final InputStream body
+        InputStream body
 
         /**
          * Instantiates a new HTTP response
