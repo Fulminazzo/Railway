@@ -1,5 +1,6 @@
 package it.fulminazzo.railway
 
+
 import org.slf4j.LoggerFactory
 import spock.lang.Specification
 
@@ -47,6 +48,22 @@ class ContentHandlerTest extends Specification {
 
         where:
         path << ['non_existing', 'not_found_dir', 'not_found_dir.txt']
+    }
+
+    def 'test invalid root dir'() {
+        when:
+        new ContentHandler('not_existing', null, LoggerFactory.getLogger(getClass()))
+
+        then:
+        thrown(ContentHandlerException)
+    }
+
+    def 'test invalid not found file'() {
+        when:
+        new ContentHandler('not_existing', null, LoggerFactory.getLogger(getClass()))
+
+        then:
+        thrown(ContentHandlerException)
     }
 
 }
