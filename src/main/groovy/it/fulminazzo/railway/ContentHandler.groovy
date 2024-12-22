@@ -153,7 +153,7 @@ class ContentHandler implements HttpHandler {
          * @param path         the path of the body
          * @param body         the body itself
          */
-        HTTPResponse(@NotNull HTTPCode responseCode, String path, String body) {
+        HTTPResponse(@NotNull HTTPCode responseCode, @NotNull String path, @NotNull String body) {
             this(responseCode, path, new ByteArrayInputStream(body.bytes))
         }
 
@@ -163,7 +163,7 @@ class ContentHandler implements HttpHandler {
          * @param responseCode the code
          * @param path         the path of the body
          */
-        HTTPResponse(@NotNull HTTPCode responseCode, String path) {
+        HTTPResponse(@NotNull HTTPCode responseCode, @NotNull String path) {
             this(responseCode, path, '')
         }
 
