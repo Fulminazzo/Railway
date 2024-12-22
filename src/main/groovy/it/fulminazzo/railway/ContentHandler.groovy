@@ -112,19 +112,19 @@ class ContentHandler implements HttpHandler {
      */
     static class HTTPResponse {
         final HTTPCode responseCode
-        final String path
+        final String message
         final InputStream body
 
         /**
          * Instantiates a new HTTP response
          *
          * @param responseCode the code
-         * @param path         the path of the body
+         * @param message      the message displayed by the logger
          * @param body         the body itself
          */
-        HTTPResponse(@NotNull HTTPCode responseCode, @NotNull String path, @NotNull InputStream body) {
+        HTTPResponse(@NotNull HTTPCode responseCode, @NotNull String message, @NotNull InputStream body) {
             this.responseCode = responseCode
-            this.path = Objects.requireNonNull(path, 'Expected path to not be null')
+            this.message = Objects.requireNonNull(message, 'Expected message to not be null')
             this.body = Objects.requireNonNull(body, 'Expected body to not be null')
         }
 
@@ -132,21 +132,20 @@ class ContentHandler implements HttpHandler {
          * Instantiates a new HTTP response
          *
          * @param responseCode the code
-         * @param path         the path of the body
+         * @param message      the message displayed by the logger
          * @param body         the body itself
          */
-        HTTPResponse(@NotNull HTTPCode responseCode, @NotNull String path, @NotNull String body) {
-            this(responseCode, path, new ByteArrayInputStream(body.bytes))
+        HTTPResponse(@NotNull HTTPCode responseCode, @NotNull String message, @NotNull String body) {
+            this(responseCode, message, new ByteArrayInputStream(body.bytes))
         }
 
         /**
          * Instantiates a new HTTP response
          *
          * @param responseCode the code
-         * @param path         the path of the body
          */
-        HTTPResponse(@NotNull HTTPCode responseCode, @NotNull String path) {
-            this(responseCode, path, '')
+        HTTPResponse(@NotNull HTTPCode responseCode) {
+            this(responseCode, responseCode.getMessage(), '')
         }
 
     }
