@@ -29,6 +29,17 @@ class ContentHandlerTest extends Specification {
                  'content_handler/index/parameter?param=1']
     }
 
+    def 'test case sensitive path'() {
+        when:
+        def path = 'BUILD/ReSoUrCeS/test/CONTENT_handler'
+        def handler = new ContentHandler(System.getProperty('user.dir'), null, this.contentHandler.logger)
+        def stream = handler.resolvePath(path).newInputStream()
+        def read = new String(stream.bytes)
+
+        then:
+        read == new String(new File(ROOT_DIR, 'content_handler/index.html').bytes)
+    }
+
     def 'test style.css'() {
         given:
         def path = 'content_handler/style.css'
