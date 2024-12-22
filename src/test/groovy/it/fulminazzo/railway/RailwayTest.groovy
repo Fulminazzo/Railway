@@ -52,6 +52,7 @@ class RailwayTest extends Specification {
 
         then:
         connection.getResponseCode() == 501
+        connection.contentLengthLong == -1
 
         where:
         method << ['POST', 'PUT', 'DELETE', 'OPTIONS']
