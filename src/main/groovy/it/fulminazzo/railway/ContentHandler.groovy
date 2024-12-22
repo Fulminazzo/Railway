@@ -59,17 +59,17 @@ class ContentHandler implements HttpHandler {
     @Override
     void handle(HttpExchange httpExchange) throws IOException {
         def response = 200
-        InputStream stream
+        File file
         try {
             def path = httpExchange.requestURI.path
-            stream = parsePath(path)
+            file = resolvePath(path)
         } catch (ContentHandlerException e) {
             //TODO: 404 page
             throw new RuntimeException(e)
         }
-        httpExchange.sendResponseHeaders(response, stream.available())
+        httpExchange.sendResponseHeaders(response, file.length())
         def output = httpExchange.getResponseBody()
-        output << stream
+        output << file
         output.close()
     }
 
