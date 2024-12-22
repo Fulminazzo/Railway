@@ -17,6 +17,18 @@ class RailwayMainTest extends Specification {
         System.err.println this.err.toString()
     }
 
+    def 'test normal functioning'() {
+        given:
+        Railway.main(new String[]{'build/resources/test', '8123', 'not_found.html', '2'})
+
+        when:
+        sleep 1000
+
+        then:
+        Railway.railwayServer.isStarted()
+        Railway.railwayServer.stop()
+    }
+
     def 'test invalid arguments'() {
         when:
         Railway.main(args.toArray(new String[0]))
