@@ -12,6 +12,7 @@ class RailwayTest extends Specification {
 
     def setupSpec() {
         railway = new Railway(PORT, THREADS, ROOT_DIR)
+        railway.start()
     }
 
     def cleanupSpec() {
@@ -35,7 +36,6 @@ class RailwayTest extends Specification {
         HttpURLConnection connection = url.openConnection() as HttpURLConnection
 
         when:
-        railway.start()
         connection.setRequestMethod('GET')
         connection.connect()
 
@@ -51,7 +51,6 @@ class RailwayTest extends Specification {
         HttpURLConnection connection = url.openConnection() as HttpURLConnection
 
         when:
-        railway.start()
         connection.setRequestMethod(method)
         connection.connect()
 
