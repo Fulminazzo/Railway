@@ -3,16 +3,23 @@ package it.fulminazzo.railway
 import spock.lang.Specification
 
 class RailwayMainTest extends Specification {
+    ByteArrayOutputStream out
+    PrintStream previousOut
     ByteArrayOutputStream err
     PrintStream previousErr
 
     void setup() {
+        this.previousOut = System.out
+        this.out = new ByteArrayOutputStream()
+        System.out = new PrintStream(this.out)
         this.previousErr = System.err
         this.err = new ByteArrayOutputStream()
         System.err = new PrintStream(this.err)
     }
 
     void cleanup() {
+        System.out = this.previousOut
+        System.out.println this.out.toString()
         System.err = this.previousErr
         System.err.println this.err.toString()
     }
