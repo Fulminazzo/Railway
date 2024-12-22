@@ -3,6 +3,7 @@ package it.fulminazzo.railway
 import com.sun.net.httpserver.HttpExchange
 import com.sun.net.httpserver.HttpHandler
 import org.jetbrains.annotations.NotNull
+import org.slf4j.Logger
 
 /**
  * A class responsible for correctly handling paths and returning appropriate files.
@@ -11,14 +12,17 @@ class ContentHandler implements HttpHandler {
     static final INDEX_NAME = 'index.html'
 
     final @NotNull File root
+    final @NotNull Logger logger
 
     /**
      * Instantiates a new ContextHandler
      *
      * @param rootDirPath the root directory path
+     * @param logger      the logger
      */
-    ContentHandler(@NotNull String rootDirPath) {
+    ContentHandler(@NotNull String rootDirPath, @NotNull Logger logger) {
         this.root = new File(rootDirPath)
+        this.logger = logger
         if (!this.root.isDirectory())
             throw new ContentHandlerException('Could not find directory at path: ' + rootDirPath)
     }
