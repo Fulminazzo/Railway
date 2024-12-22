@@ -106,9 +106,9 @@ class ContentHandler implements HttpHandler {
         try {
             code = HTTPCode.OK
             file = resolvePath(path)
-        } catch (ContentHandlerException e) {
-            //TODO: 404 page
-            throw new RuntimeException(e)
+        } catch (ContentHandlerException ignored) {
+            code = HTTPCode.NOT_FOUND
+            file = this.notFoundPage
         }
         return new HTTPResponse(code, file.getPath(), file.newInputStream())
     }
