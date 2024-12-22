@@ -63,21 +63,45 @@ class ContentHandler implements HttpHandler {
     @Override
     void handle(HttpExchange httpExchange) throws IOException {
         def requesterIp = httpExchange.getRemoteAddress().getHostName()
+        def method = httpExchange.requestMethod
+        def path = httpExchange.requestURI.path
+        def output = httpExchange.getResponseBody()
+        Tuple response
+
+        this.logger.info("${requesterIp} -> ${httpExchange.requestMethod} ${path}")
+
+        switch (method) {
+            case "GET" -> response = handleGET(httpExchange, path, output)
+            default -> {
+                //TODO: not implemented
+                throw new RuntimeException()
+            }
+        }
+
+        this.logger.info("${requesterIp} <- ${response.get(0)} ${response.get(1)}")
+        output.close()
+    }
+
+    /**
+     * Handles a GET request.
+     *
+     * @param httpExchange the http exchange
+     * @param path the path of the request
+     * @param output the output where to write the body
+     * @return a tuple containing the code and the returned path (for logging purposes)
+     */
+    Tuple handleGET(@NotNull HttpExchange httpExchange, @NotNull String path, @NotNull OutputStream output) {
         def response = 200
         File file
         try {
-            def path = httpExchange.requestURI.path
-            this.logger.info("${requesterIp} -> ${httpExchange.requestMethod} ${path}")
             file = resolvePath(path)
         } catch (ContentHandlerException e) {
             //TODO: 404 page
             throw new RuntimeException(e)
         }
-        this.logger.info("${requesterIp} <- ${response} ${file.path}")
         httpExchange.sendResponseHeaders(response, file.length())
-        def output = httpExchange.getResponseBody()
         output << file.newInputStream()
-        output.close()
+        return new Tuple(response, file.getPath())
     }
 
 }
