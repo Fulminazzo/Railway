@@ -11,7 +11,8 @@ import org.slf4j.Logger
  */
 class ContentHandler implements HttpHandler {
     static final INDEX_NAME = 'index'
-    static final INDEXES_EXTENSIONS = ['html', 'groovy']
+    static final SCRIPTS_EXTENSION = 'groovy'
+    static final INDEXES_EXTENSIONS = ['html', SCRIPTS_EXTENSION]
     static final SERVER_NAME_VERSION = 'Railway/1.0'
 
     final @NotNull File root
@@ -147,6 +148,7 @@ class ContentHandler implements HttpHandler {
             file = this.notFoundPage
         }
         if (file == null) return new HTTPResponse(code)
+        else if (file.getName().endsWith(".${SCRIPTS_EXTENSION}")) return runScript(file, httpExchange)
         else return new HTTPResponse(code, file.getPath(), file.newInputStream())
     }
 
