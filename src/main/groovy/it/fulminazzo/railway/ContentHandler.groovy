@@ -60,7 +60,10 @@ class ContentHandler implements HttpHandler {
             } catch (ContentHandlerException ignored) {}
             matcher = path =~ /([^\/]*)\/[^\/]+/
             try {
-                if (matcher.find()) return resolvePath(matcher.group(1))
+                if (matcher.find()) {
+                    def group = matcher.group(1)
+                    if (!group.trim().isEmpty()) return resolvePath(group)
+                }
             } catch (ContentHandlerException ignored) {}
             throw e
         }
