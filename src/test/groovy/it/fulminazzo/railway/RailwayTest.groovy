@@ -8,10 +8,12 @@ class RailwayTest extends Specification {
     static final ROOT_DIR = 'build/resources/test'
     static final THREADS = 10
 
+    static File notFoundFile
     static Railway railway
 
     def setupSpec() {
-        railway = new Railway(PORT, THREADS, ROOT_DIR)
+        notFoundFile = new File("${ROOT_DIR}${File.separator}not_found.html")
+        railway = new Railway(PORT, THREADS, ROOT_DIR, notFoundFile.getPath())
         railway.start()
     }
 
