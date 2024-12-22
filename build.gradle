@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.groovy)
-    alias(libs.plugins.jacoco)
     alias(libs.plugins.delombok)
 }
 
