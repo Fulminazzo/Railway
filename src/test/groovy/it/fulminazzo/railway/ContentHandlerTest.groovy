@@ -38,4 +38,15 @@ class ContentHandlerTest extends Specification {
         read == new String(new File(ROOT_DIR, path).bytes)
     }
 
+    def 'test invalid path'() {
+        when:
+        this.contentHandler.resolvePath(path)
+
+        then:
+        thrown(ContentHandlerException)
+
+        where:
+        path << ['non_existing', 'not_found_dir', 'not_found_dir.txt']
+    }
+
 }
