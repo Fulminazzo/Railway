@@ -189,6 +189,21 @@ class ContentHandler implements HttpHandler {
     }
 
     /**
+     * Runs the given script by invoking the method <code>handle(HttpExchange)</code>.
+     * If that method is not present, an exception is thrown.
+     *
+     * @param scriptFile   the script file
+     * @param httpExchange the http exchange
+     * @return the HTTPResponse returned by the method
+     */
+    static @NotNull HTTPResponse runScript(@NotNull File scriptFile, @NotNull HttpExchange httpExchange) {
+        if (httpExchange == null) throw new ContentHandlerException('Expected httpExchange to not be null')
+        return new GroovyShell().parse(scriptFile).with {
+            return handle(httpExchange)
+        }
+    }
+
+    /**
      * Represents a holder for contents of a HTTP response.
      */
     static class HTTPResponse {
