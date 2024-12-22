@@ -85,7 +85,8 @@ class Railway {
             def threads = DEFAULT_EXECUTOR_THREADS
 
             if (args.length > 0) {
-                if (args[0] == '--help' || args[0] == '-h') {
+                def arg = args[0]
+                if (arg == '--help' || arg == '-h') {
                     println "Usage: java -jar railway.jar " +
                             "<rootDir:\"${rootDir}\"> " +
                             "<port:${port}> " +
@@ -93,8 +94,7 @@ class Railway {
                             "<threads:${threads}>"
                     println 'All the parameters are optional. After the \':\' are present the default values.'
                     return
-                }
-                rootDir = args[0]
+                } else if (arg != '.' || arg != '..') rootDir = args[0]
             }
             if (args.length > 1) port = getPort(args[1])
             if (args.length > 2) notFoundPage = args[2]
