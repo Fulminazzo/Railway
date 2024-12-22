@@ -106,22 +106,6 @@ class ContentHandler implements HttpHandler {
     }
 
     /**
-     * Uses {@link #CODES_MAP} to get the respective message from the given code.
-     *
-     * @param code the code
-     * @param fallback the path from which take the default body
-     * @return the HTTP response
-     * @throws ContentHandlerException the exception thrown in case the message is not found
-     */
-    @NotNull HTTPResponse getCodeFromMessage(@NotNull String message, @Nullable String fallback) throws ContentHandlerException {
-        def code = CODES_MAP[message]
-        if (code == null) throw new ContentHandlerException("Could not find error code ${message}")
-        if (fallback == null) return new HTTPResponse(code, message, '')
-        File file = new File(this.root, fallback)
-        return new HTTPResponse(code, file.getPath(), file.newInputStream())
-    }
-
-    /**
      * Represents a holder for contents of a HTTP response.
      */
     static class HTTPResponse {
