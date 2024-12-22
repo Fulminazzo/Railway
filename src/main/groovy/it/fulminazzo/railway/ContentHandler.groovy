@@ -123,6 +123,7 @@ class ContentHandler implements HttpHandler {
      */
     static class HTTPResponse {
         final int responseCode
+        final Map<String, List<String>> headers
         final String message
         final InputStream body
 
@@ -132,11 +133,39 @@ class ContentHandler implements HttpHandler {
          * @param responseCode the code
          * @param message      the message displayed by the logger
          * @param body         the body itself
+         * @param headers      the headers for the response
          */
-        HTTPResponse(@NotNull HTTPCode responseCode, @NotNull String message, @NotNull InputStream body) {
+        HTTPResponse(@NotNull HTTPCode responseCode, @NotNull String message, @NotNull InputStream body,
+                     @Nullable Map<String, List<String>> headers) {
             this.responseCode = responseCode.code
             this.message = Objects.requireNonNull(message, 'Expected message to not be null')
             this.body = Objects.requireNonNull(body, 'Expected body to not be null')
+            this.headers = new LinkedHashMap<>()
+            if (headers != null) this.headers.putAll(headers)
+        }
+
+        /**
+         * Instantiates a new HTTP response
+         *
+         * @param responseCode the code
+         * @param message      the message displayed by the logger
+         * @param body         the body itself
+         */
+        HTTPResponse(@NotNull HTTPCode responseCode, @NotNull String message, @NotNull InputStream body) {
+            this(responseCode, message, body, null)
+        }
+
+        /**
+         * Instantiates a new HTTP response
+         *
+         * @param responseCode the code
+         * @param message      the message displayed by the logger
+         * @param body         the body itself
+         * @param headers      the headers for the response
+         */
+        HTTPResponse(@NotNull HTTPCode responseCode, @NotNull String message, @NotNull String body,
+                     @Nullable Map<String, List<String>> headers) {
+            this(responseCode, message, new ByteArrayInputStream(body.bytes), headers)
         }
 
         /**
