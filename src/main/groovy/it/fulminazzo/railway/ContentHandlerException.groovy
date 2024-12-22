@@ -23,7 +23,7 @@ class ContentHandlerException extends Exception {
      * @param cause the error that caused the exception
      */
     ContentHandlerException(String message, @NotNull Throwable cause) {
-        super(message, Objects.requireNonNull(cause, "Expected cause to be not null"))
+        super(message, Objects.requireNonNull(cause, 'Expected cause to be not null'))
     }
 
 }

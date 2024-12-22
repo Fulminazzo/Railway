@@ -82,7 +82,7 @@ class Railway {
             def threads = DEFAULT_EXECUTOR_THREADS
 
             if (args.length > 0) {
-                if (args[0] == '--help' || args[0] == "-h") {
+                if (args[0] == '--help' || args[0] == '-h') {
                     println 'Usage: java -jar railway.jar <rootDir> <port> <threads>'
                     println 'The port and rootDir parameters are optional.'
                     return

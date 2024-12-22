@@ -75,7 +75,7 @@ class ContentHandler implements HttpHandler {
         this.logger.info("${requesterIp} -> ${httpExchange.requestMethod} ${path}")
 
         switch (method) {
-            case "GET" -> response = handleGET(path)
+            case 'GET' -> response = handleGET(path)
             default -> response = getCodeFromMessage('Not implemented', null)
         }
 
