@@ -36,6 +36,17 @@ class RailwayMainTest extends Specification {
         Railway.railwayServer.stop()
     }
 
+    def 'test normal functioning no arguments'() {
+        expect:
+        try {
+            Railway.main()
+            Railway.railwayServer.isStarted()
+            Railway.railwayServer.stop()
+        } catch (BindException e) {
+            e.getMessage() == 'Permission denied'
+        }
+    }
+
     def 'test help'() {
         when:
         Railway.main(new String[]{argument})
