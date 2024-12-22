@@ -86,8 +86,12 @@ class Railway {
 
             if (args.length > 0) {
                 if (args[0] == '--help' || args[0] == '-h') {
-                    println 'Usage: java -jar railway.jar <rootDir> <port> <notFoundPage> <threads>'
-                    println 'The port and rootDir parameters are optional.'
+                    println "Usage: java -jar railway.jar " +
+                            "<rootDir:\"${rootDir}\"> " +
+                            "<port:${port}> " +
+                            "<notFoundPage:\"\"> " +
+                            "<threads:${threads}>"
+                    println 'All the parameters are optional. After the \':\' are present the default values.'
                     return
                 }
                 rootDir = args[0]
