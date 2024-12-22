@@ -9,6 +9,7 @@ enum HTTPCode {
     // 200
     OK(200),
     // 400
+    BAD_REQUEST(400),
     NOT_FOUND(404),
     // 500
     NOT_IMPLEMENTED(501)
