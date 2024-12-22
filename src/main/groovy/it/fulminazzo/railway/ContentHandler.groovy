@@ -76,7 +76,7 @@ class ContentHandler implements HttpHandler {
         this.logger.info("${requesterIp} <- ${response} ${file.path}")
         httpExchange.sendResponseHeaders(response, file.length())
         def output = httpExchange.getResponseBody()
-        output << file
+        output << file.newInputStream()
         output.close()
     }
 
