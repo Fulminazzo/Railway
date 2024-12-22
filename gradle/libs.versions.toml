@@ -26,3 +26,7 @@ byte_buddy = { module = "net.bytebuddy:byte-buddy", version.ref = "byte_buddy" }
 
 [bundles]
 logger = [ "slf4j", "logback" ]
+
+[plugins]
+groovy = { id = "groovy" }
+delombok = { id = "io.freefair.lombok", version.ref = "delombok" }
