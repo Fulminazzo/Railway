@@ -114,7 +114,8 @@ class ContentHandler implements HttpHandler {
             code = HTTPCode.NOT_FOUND
             file = this.notFoundPage
         }
-        return new HTTPResponse(code, file.getPath(), file.newInputStream())
+        if (file == null) return new HTTPResponse(code)
+        else return new HTTPResponse(code, file.getPath(), file.newInputStream())
     }
 
     /**
