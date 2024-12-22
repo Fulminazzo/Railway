@@ -16,6 +16,7 @@ import java.util.concurrent.Executors
 class Railway {
     static final DEFAULT_PORT = 80
     static final DEFAULT_EXECUTOR_THREADS = 32
+    static Railway railwayServer
 
     final int port
     final int executorThreads
@@ -96,11 +97,12 @@ class Railway {
             if (args.length > 3) threads = getNatural(args[3])
 
             println 'Starting server. Press CTRL + C to stop'
-            def server = new Railway(port, threads, rootDir, notFoundPage)
-            server.start()
+            railwayServer = new Railway(port, threads, rootDir, notFoundPage)
+            railwayServer.start()
 
             Runtime.getRuntime().addShutdownHook {
-                server.stop()
+                railwayServer.stop()
+                railwayServer = null
             }
         } catch (RailwayException | ContentHandlerException e) {
             System.err.println(e.message)
