@@ -11,7 +11,7 @@ class ContentHandlerTest extends Specification {
 
     def 'test path: #path'() {
         when:
-        def stream = this.contentHandler.parsePath(path)
+        def stream = this.contentHandler.resolvePath(path).newInputStream()
         def read = new String(stream.bytes)
 
         then:
@@ -26,7 +26,7 @@ class ContentHandlerTest extends Specification {
         def path = 'content_handler/style.css'
 
         when:
-        def stream = this.contentHandler.parsePath(path)
+        def stream = this.contentHandler.resolvePath(path).newInputStream()
         def read = new String(stream.bytes)
 
         then:
