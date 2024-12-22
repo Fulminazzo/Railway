@@ -12,6 +12,7 @@ import java.util.concurrent.Executors
  */
 class Railway {
     static final DEFAULT_PORT = 80
+    static final DEFAULT_EXECUTOR_THREADS = 32
 
     final int port
     final int executorThreads
@@ -70,18 +71,20 @@ class Railway {
         try {
             def port = DEFAULT_PORT
             def rootDir = System.getProperty('user.dir')
+            def threads = DEFAULT_EXECUTOR_THREADS
 
             if (args.length > 0) {
                 if (args[0] == '--help' || args[0] == "-h") {
-                    println 'Usage: java -jar railway.jar <port> <rootDir>'
+                    println 'Usage: java -jar railway.jar <rootDir> <port> <threads>'
                     println 'The port and rootDir parameters are optional.'
                     return
                 }
                 rootDir = args[0]
             }
             if (args.length > 1) port = getPort(args[1])
+            if (args.length > 2) threads = getNatural(args[2])
 
-            server = new Railway(port, rootDir)
+            server = new Railway(port, threads, rootDir)
             server.start()
         } catch (RailwayException | ContentHandlerException e) {
             System.err.println(e.message)
