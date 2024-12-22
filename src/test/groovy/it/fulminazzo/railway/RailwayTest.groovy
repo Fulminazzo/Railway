@@ -57,7 +57,7 @@ class RailwayTest extends Specification {
         connection.errorStream.bytes == notFoundFile.bytes
     }
 
-    def 'test invalid method'() {
+    def 'test invalid method: #method'() {
         given:
         def path = 'content_handler'
         def url = new URL("http://localhost:${PORT}/${path}")
@@ -70,6 +70,7 @@ class RailwayTest extends Specification {
         then:
         connection.getResponseCode() == 501
         connection.contentLengthLong == -1
+        connection.errorStream.available() == 0
 
         where:
         method << ['POST', 'PUT', 'DELETE', 'OPTIONS']
