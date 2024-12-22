@@ -77,11 +77,11 @@ class ContentHandler implements HttpHandler {
             case "GET" -> response = handleGET(httpExchange, path, output)
             default -> {
                 response = getMessageFromCode(501)
-                httpExchange.sendResponseHeaders(response.get(0), 0)
+                httpExchange.sendResponseHeaders(response[0], 0)
             }
         }
 
-        this.logger.info("${requesterIp} <- ${response.get(0)} ${response.get(1)}")
+        this.logger.info("${requesterIp} <- ${response[0]} ${response[1]}")
         output.close()
     }
 
@@ -115,7 +115,7 @@ class ContentHandler implements HttpHandler {
      * @throws ContentHandlerException the exception thrown in case the message is not found
      */
     static Tuple getMessageFromCode(int code) throws ContentHandlerException {
-        def message = CODES_MAP.get(code)
+        def message = CODES_MAP[code]
         if (message == null) throw new ContentHandlerException("Could not find error code ${code}")
         return new Tuple(code, message)
     }
