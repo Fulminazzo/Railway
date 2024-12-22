@@ -7,14 +7,14 @@ class RailwayTest extends Specification {
     static final ROOT_DIR = 'build/resources/test'
     static final THREADS = 10
 
-    Railway railway
+    static Railway railway
 
-    def setup() {
-        this.railway = new Railway(PORT, THREADS, ROOT_DIR)
+    def setupSpec() {
+        railway = new Railway(PORT, THREADS, ROOT_DIR)
     }
 
-    def tearDown() {
-        this.railway.stop()
+    def cleanupSpec() {
+        if (railway.isStarted()) railway.stop()
     }
 
     def 'test server'() {
@@ -24,7 +24,7 @@ class RailwayTest extends Specification {
         HttpURLConnection connection = url.openConnection() as HttpURLConnection
 
         when:
-        this.railway.start()
+        railway.start()
         connection.setRequestMethod('GET')
         connection.connect()
 
