@@ -36,3 +36,28 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+this.ext.getMainClass = {
+    return "${project.group}.${project.name.toLowerCase()}.${project.name}"
+}
+
+jar {
+    enabled = true // Required for sub projects depending on sub projects
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    archiveFileName = "${project.name}-${project.version}-original.jar"
+    dependsOn(shadowJar)
+    manifest {
+        attributes(
+                'Main-Class': getMainClass()
+        )
+    }
+}
+
+shadowJar {
+    archiveFileName = "${project.name}-${project.version}.jar"
+    manifest {
+        attributes(
+                'Main-Class': getMainClass()
+        )
+    }
+}
