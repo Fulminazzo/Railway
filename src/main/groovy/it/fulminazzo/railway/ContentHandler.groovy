@@ -11,10 +11,6 @@ import org.slf4j.Logger
  */
 class ContentHandler implements HttpHandler {
     static final INDEX_NAME = 'index.html'
-    static final CODES_MAP = [
-            'OK' : 200,
-            'Not implemented' : 501
-    ]
 
     final @NotNull File root
     final @NotNull Logger logger
