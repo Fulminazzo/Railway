@@ -4,6 +4,9 @@ import com.sun.net.httpserver.HttpServer
 import lombok.Getter
 import org.jetbrains.annotations.NotNull
 
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
+
 /**
  * The main root class.
  */
@@ -11,8 +14,11 @@ class Railway {
     static final DEFAULT_PORT = 80
 
     final int port
+    final int executorThreads
     final HttpServer server
     final ContentHandler contentHandler
+
+    ExecutorService executor
     @Getter
     boolean started
 
@@ -20,10 +26,12 @@ class Railway {
      * Instantiates a new Railway server
      *
      * @param port the port
+     * @param executorThreads the maximum amount of concurrent threads per request
      * @param rootDir the root directory
      */
-    Railway(int port, @NotNull String rootDir) {
+    Railway(int port, int executorThreads, @NotNull String rootDir) {
         this.port = port
+        this.executorThreads = executorThreads
         this.server = HttpServer.create(new InetSocketAddress(port), 0)
         this.contentHandler = new ContentHandler(rootDir)
     }
@@ -33,9 +41,12 @@ class Railway {
      */
     void start() {
         if (isStarted()) throw new RailwayException('Server already started')
+
         this.started = true
+        this.executor = Executors.newFixedThreadPool(this.executorThreads)
+
         this.server.createContext('/', this.contentHandler)
-        this.server.setExecutor(null)
+        this.server.setExecutor(this.executor)
         this.server.start()
     }
 
@@ -44,7 +55,9 @@ class Railway {
      */
     void stop() {
         if (!isStarted()) throw new RailwayException('Server not started yet')
+
         this.server.stop(0)
+        this.executor.shutdownNow()
     }
 
     /**
