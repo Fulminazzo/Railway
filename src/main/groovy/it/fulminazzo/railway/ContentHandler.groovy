@@ -10,7 +10,8 @@ import org.slf4j.Logger
  * A class responsible for correctly handling paths and returning appropriate files.
  */
 class ContentHandler implements HttpHandler {
-    static final INDEX_NAME = 'index.html'
+    static final INDEX_NAME = 'index'
+    static final INDEXES_EXTENSIONS = ['html', 'groovy']
     static final SERVER_NAME_VERSION = 'Railway/1.0'
 
     final @NotNull File root
@@ -81,18 +82,22 @@ class ContentHandler implements HttpHandler {
         def file = new File(this.root, path)
         if (file.isFile()) return file
         else if (file.isDirectory()) {
-            file = new File(file, INDEX_NAME)
-            if (file.isFile()) return file
-            else throw new ContentHandlerException('Could not find path: ' + path)
+            for (def ext : INDEXES_EXTENSIONS) {
+                file = new File(file, "${INDEX_NAME}.${ext}")
+                if (file.isFile()) return file
+            }
+            throw new ContentHandlerException('Could not find path: ' + path)
         } else {
             def pattern = ~/(.*)\.([^.]+)/
             def matcher = path =~ pattern
             if (matcher.matches())
                 throw new ContentHandlerException('Could not find path: ' + path)
             else {
-                file = new File(this.root, path + '.html')
-                if (file.isFile()) return file
-                else throw new ContentHandlerException('Could not find path: ' + path)
+                for (def ext : INDEXES_EXTENSIONS) {
+                    file = new File(this.root, "${path}.${ext}")
+                    if (file.isFile()) return file
+                }
+                throw new ContentHandlerException('Could not find path: ' + path)
             }
         }
     }
