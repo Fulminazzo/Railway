@@ -42,6 +42,17 @@ class RailwayTest extends Specification {
         connection.inputStream.bytes == new File("${ROOT_DIR}/${path}", 'index.html').bytes
     }
 
+    def 'test request website'() {
+        given:
+        def path = 'content_handler'
+
+        when:
+        def response = ContentHandler.requestWebsite("http://localhost:${PORT}/${path}", 'GET')
+
+        then:
+        response.bytes == new File("${ROOT_DIR}/${path}", 'index.html').bytes
+    }
+
     def 'test get not found'() {
         given:
         def path = 'non_existing'
@@ -55,6 +66,14 @@ class RailwayTest extends Specification {
         then:
         connection.getResponseCode() == 404
         connection.errorStream.bytes == notFoundFile.bytes
+    }
+
+    def 'test request website not found'() {
+        when:
+        ContentHandler.requestWebsite("http://localhost:${PORT}/non_existing", 'GET')
+
+        then:
+        thrown(ContentHandlerException)
     }
 
     def 'test get not found with no page'() {
