@@ -24,7 +24,9 @@ class ContentHandlerTest extends Specification {
         read == new String(new File(ROOT_DIR, 'content_handler/index.html').bytes)
 
         where:
-        path << ['content_handler/index.html', 'content_handler/index', 'content_handler/', 'content_handler']
+        path << ['content_handler/index.html', 'content_handler/index',
+                 'content_handler/', 'content_handler',
+                 'content_handler/index/parameter?param=1']
     }
 
     def 'test style.css'() {
@@ -44,10 +46,11 @@ class ContentHandlerTest extends Specification {
         this.contentHandler.resolvePath(path)
 
         then:
-        thrown(ContentHandlerException)
+        def e = thrown(ContentHandlerException)
+        e.getMessage().contains(path)
 
         where:
-        path << ['non_existing', 'not_found_dir', 'not_found_dir.txt']
+        path << ['non_existing', 'not_found_dir', 'not_found_dir.txt', 'non_existing/path']
     }
 
     def 'test invalid root dir'() {

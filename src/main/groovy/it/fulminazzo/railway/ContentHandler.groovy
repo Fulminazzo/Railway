@@ -40,6 +40,31 @@ class ContentHandler implements HttpHandler {
     }
 
     /**
+     * Resolves the given path using {@link #resolvePathSingle(String)}.
+     * If it could not be solved, it tries to cut the path using forward slashes
+     * and tries the resolution once again.
+     *
+     * @param path the path
+     * @return the file
+     * @throws ContentHandlerException the exception thrown in case of error
+     */
+    @NotNull File resolvePath(@NotNull String path) throws ContentHandlerException {
+        try {
+            return resolvePathSingle(path)
+        } catch (ContentHandlerException e) {
+            def matcher = path =~ /([^?]+)\?.*/
+            try {
+                if (matcher.find()) return resolvePath(matcher.group(1))
+            } catch (ContentHandlerException ignored) {}
+            matcher = path =~ /([^\/]*)\/[^\/]+/
+            try {
+                if (matcher.find()) return resolvePath(matcher.group(1))
+            } catch (ContentHandlerException ignored) {}
+            throw e
+        }
+    }
+
+    /**
      * Resolves the given path by:
      * <ul>
      *     <li>if it contains a file extension, it searches for the file in the file system;</li>
@@ -52,7 +77,7 @@ class ContentHandler implements HttpHandler {
      * @return the file
      * @throws ContentHandlerException the exception thrown in case of error
      */
-    @NotNull File resolvePath(@NotNull String path) throws ContentHandlerException {
+    @NotNull File resolvePathSingle(@NotNull String path) throws ContentHandlerException {
         def file = new File(this.root, path)
         if (file.isFile()) return file
         else if (file.isDirectory()) {
