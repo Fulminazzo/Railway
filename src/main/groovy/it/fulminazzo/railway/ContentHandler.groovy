@@ -82,7 +82,7 @@ class ContentHandler implements HttpHandler {
         this.logger.info("${requesterIp} -> ${httpExchange.requestMethod} ${path}")
 
         switch (method) {
-            case 'GET' -> response = handleGET(path)
+            case 'GET' -> response = handleGET(httpExchange, path)
             default -> response = new HTTPResponse(HTTPCode.NOT_IMPLEMENTED)
         }
 
@@ -104,10 +104,9 @@ class ContentHandler implements HttpHandler {
      *
      * @param httpExchange the http exchange
      * @param path the path of the request
-     * @param output the output where to write the body
      * @return the HTTP response
      */
-    @NotNull HTTPResponse handleGET(@NotNull String path) {
+    @NotNull HTTPResponse handleGET(@NotNull HttpExchange httpExchange, @NotNull String path) {
         HTTPCode code
         File file
         try {
