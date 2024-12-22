@@ -60,7 +60,7 @@ class ContentHandlerTest extends Specification {
 
     def 'test invalid not found file'() {
         when:
-        new ContentHandler('not_existing', null, LoggerFactory.getLogger(getClass()))
+        new ContentHandler(ROOT_DIR, 'not_existing', LoggerFactory.getLogger(getClass()))
 
         then:
         thrown(ContentHandlerException)
