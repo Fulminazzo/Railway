@@ -3,6 +3,8 @@ package it.fulminazzo.railway
 import com.sun.net.httpserver.HttpServer
 import lombok.Getter
 import org.jetbrains.annotations.NotNull
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -16,6 +18,7 @@ class Railway {
 
     final int port
     final int executorThreads
+    final Logger logger
     final HttpServer server
     final ContentHandler contentHandler
 
@@ -33,8 +36,9 @@ class Railway {
     Railway(int port, int executorThreads, @NotNull String rootDir) {
         this.port = port
         this.executorThreads = executorThreads
+        this.logger = LoggerFactory.getLogger(getClass().simpleName)
         this.server = HttpServer.create(new InetSocketAddress(port), 0)
-        this.contentHandler = new ContentHandler(rootDir)
+        this.contentHandler = new ContentHandler(rootDir, this.logger)
     }
 
     /**
