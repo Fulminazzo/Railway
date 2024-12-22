@@ -157,6 +157,16 @@ class ContentHandler implements HttpHandler {
             this(responseCode, path, new ByteArrayInputStream(body.bytes))
         }
 
+        /**
+         * Instantiates a new HTTP response
+         *
+         * @param responseCode the code
+         * @param path         the path of the body
+         */
+        HTTPResponse(@NotNull HTTPCode responseCode, String path) {
+            this(responseCode, path, '')
+        }
+
     }
 
 }
