@@ -3,6 +3,7 @@ package it.fulminazzo.railway
 import com.sun.net.httpserver.HttpExchange
 import com.sun.net.httpserver.HttpHandler
 import org.jetbrains.annotations.NotNull
+import org.jetbrains.annotations.Nullable
 import org.slf4j.Logger
 
 /**
@@ -109,15 +110,15 @@ class ContentHandler implements HttpHandler {
      * Uses {@link #CODES_MAP} to get the respective message from the given code.
      *
      * @param code the code
-     * @param path the path from which take the default body
+     * @param fallback the path from which take the default body
      * @return the HTTP response
      * @throws ContentHandlerException the exception thrown in case the message is not found
      */
-    @NotNull HTTPResponse getCodeFromMessage(@NotNull String message, @Nullable String path) throws ContentHandlerException {
+    @NotNull HTTPResponse getCodeFromMessage(@NotNull String message, @Nullable String fallback) throws ContentHandlerException {
         def code = CODES_MAP[message]
         if (code == null) throw new ContentHandlerException("Could not find error code ${message}")
-        if (path == null) return new HTTPResponse(code, message, '')
-        File file = new File(this.root, path)
+        if (fallback == null) return new HTTPResponse(code, message, '')
+        File file = new File(this.root, fallback)
         return new HTTPResponse(code, file.getPath(), file.newInputStream())
     }
 
