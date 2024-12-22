@@ -62,7 +62,7 @@ class RailwayMainTest extends Specification {
 
     def 'test invalid arguments'() {
         when:
-        Railway.main(args.toArray(new String[0]))
+        Railway.main(args.toArray(String[]::new))
 
         then:
         this.err.toString() == "${expected}\n"
