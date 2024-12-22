@@ -53,6 +53,7 @@ class Railway {
         this.server.createContext('/', this.contentHandler)
         this.server.setExecutor(this.executor)
         this.server.start()
+        this.logger.info("Started server on port ${this.port} with ${this.executorThreads} threads...")
     }
 
     /**
@@ -61,8 +62,11 @@ class Railway {
     void stop() {
         if (!isStarted()) throw new RailwayException('Server not started yet')
 
+        this.logger.info('Stopping server...')
         this.server.stop(0)
+        this.logger.info('Successfully stopped server.')
         this.executor.shutdownNow()
+        this.logger.info('Successfully shutdown thread executor.')
     }
 
     /**
