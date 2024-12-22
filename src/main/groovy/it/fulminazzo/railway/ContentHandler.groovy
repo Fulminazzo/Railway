@@ -11,6 +11,7 @@ import org.slf4j.Logger
  */
 class ContentHandler implements HttpHandler {
     static final INDEX_NAME = 'index.html'
+    static final SERVER_NAME_VERSION = 'Railway/1.0'
 
     final @NotNull File root
     final @Nullable File notFoundPage
@@ -91,6 +92,8 @@ class ContentHandler implements HttpHandler {
 
         this.logger.info("${requesterIp} <- ${responseCode} ${response.message}")
 
+        response.headers.forEach { k, v -> httpExchange.responseHeaders.put(k, v) }
+        httpExchange.responseHeaders.put('Server', [SERVER_NAME_VERSION])
         httpExchange.sendResponseHeaders(responseCode, responseBody.available())
         output << responseBody
         output.close()
