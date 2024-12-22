@@ -18,6 +18,7 @@ lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
 annotations = { module = "org.jetbrains:annotations", version.ref = "annotations" }
 
 groovy = { module = "org.apache.groovy:groovy", version.ref = "groovy" }
+groovy-json = { module = "org.apache.groovy:groovy-json", version.ref = "groovy" }
 
 slf4j = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
@@ -27,6 +28,7 @@ byte_buddy = { module = "net.bytebuddy:byte-buddy", version.ref = "byte_buddy" }
 
 [bundles]
 logger = [ "slf4j", "logback" ]
+groovy = [ "groovy", "groovy-json" ]
 
 [plugins]
 groovy = { id = "groovy" }

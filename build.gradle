@@ -23,7 +23,7 @@ dependencies {
     testCompileOnly libs.annotations
 
     // Groovy
-    implementation libs.groovy
+    implementation libs.bundles.groovy
 
     // Logger
     implementation libs.bundles.logger
