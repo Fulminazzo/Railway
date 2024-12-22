@@ -120,4 +120,38 @@ class ContentHandler implements HttpHandler {
         return new Tuple(code, message)
     }
 
+    /**
+     * Represents a holder for contents of a HTTP response.
+     */
+    static class HTTPResponse {
+        final int responseCode
+        final String path
+        final InputStream body
+
+        /**
+         * Instantiates a new HTTP response
+         *
+         * @param responseCode the code
+         * @param path         the path of the body
+         * @param body         the body itself
+         */
+        HTTPResponse(int responseCode, @NotNull String path, @NotNull InputStream body) {
+            this.responseCode = responseCode
+            this.path = Objects.requireNonNull(path, 'Expected path to not be null')
+            this.body = Objects.requireNonNull(body, 'Expected body to not be null')
+        }
+
+        /**
+         * Instantiates a new HTTP response
+         *
+         * @param responseCode the code
+         * @param path         the path of the body
+         * @param body         the body itself
+         */
+        HTTPResponse(int responseCode, String path, String body) {
+            this(responseCode, path, new ByteArrayInputStream(body.bytes))
+        }
+
+    }
+
 }
