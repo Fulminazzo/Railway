@@ -29,16 +29,17 @@ class Railway {
     /**
      * Instantiates a new Railway server
      *
-     * @param port the port
+     * @param port            the port
      * @param executorThreads the maximum amount of concurrent threads per request
-     * @param rootDir the root directory
+     * @param rootDir         the root directory
+     * @param notFoundPage    the page with the not found response
      */
-    Railway(int port, int executorThreads, @NotNull String rootDir) {
+    Railway(int port, int executorThreads, @NotNull String rootDir, @NotNull String notFoundPage) {
         this.port = port
         this.executorThreads = executorThreads
         this.logger = LoggerFactory.getLogger(getClass().simpleName)
         this.server = HttpServer.create(new InetSocketAddress(port), 0)
-        this.contentHandler = new ContentHandler(rootDir, this.logger)
+        this.contentHandler = new ContentHandler(rootDir, notFoundPage, this.logger)
     }
 
     /**
