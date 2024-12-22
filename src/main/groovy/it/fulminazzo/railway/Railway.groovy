@@ -107,4 +107,19 @@ class Railway {
         throw new RailwayException("Invalid port \"${string}\". A number higher than 0 is required.")
     }
 
+    /**
+     * Tries to get a natural number (higher than 0) from the given string.
+     * A {@link RailwayException} is thrown in case of failure.
+     *
+     * @param string the string
+     * @return the port
+     */
+    static int getNatural(@NotNull String string) throws RailwayException {
+        if (string.isNumber()) {
+            def tmp = string as Integer
+            if (tmp >= 0) return tmp
+        }
+        throw new RailwayException("Invalid port \"${string}\". A number higher than 0 is required.")
+    }
+
 }
