@@ -96,8 +96,13 @@ class Railway {
             if (args.length > 2) notFoundPage = args[2]
             if (args.length > 3) threads = getNatural(args[3])
 
+            println 'Starting server. Press CTRL + C to stop'
             server = new Railway(port, threads, rootDir, notFoundPage)
             server.start()
+
+            Runtime.getRuntime().addShutdownHook {
+                server.stop()
+            }
         } catch (RailwayException | ContentHandlerException e) {
             System.err.println(e.message)
         } finally {
