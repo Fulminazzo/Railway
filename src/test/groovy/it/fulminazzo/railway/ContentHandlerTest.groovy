@@ -40,16 +40,20 @@ class ContentHandlerTest extends Specification {
         read == new String(new File(ROOT_DIR, 'content_handler/index.html').bytes)
     }
 
-    def 'test get file from root dir function'() {
+    def 'test get file #path from root dir function'() {
         given:
         def handler = new ContentHandler(System.getProperty('user.dir'), null, this.contentHandler.logger)
-        def path = 'BUILD/ReSoUrCeS/test/CONTENT_handler'
 
         when:
         def file = handler.getFileFromRootDir(path)
 
         then:
-        file == new File('build/resources/test/content_handler').getAbsoluteFile()
+        file == new File(expected).getAbsoluteFile()
+
+        where:
+        path                                             | expected
+        'BUILD/ReSoUrCeS/test/CONTENT_handler'           | 'build/resources/test/content_handler'
+        'build/resources/test/content_handler/STYLE.CSS' | 'build/resources/test/content_handler/style.css'
     }
 
     def 'test style.css'() {
