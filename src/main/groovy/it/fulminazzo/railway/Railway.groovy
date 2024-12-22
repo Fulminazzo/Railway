@@ -1,6 +1,7 @@
 package it.fulminazzo.railway
 
 import com.sun.net.httpserver.HttpServer
+import lombok.Getter
 import org.jetbrains.annotations.NotNull
 
 /**
@@ -12,6 +13,8 @@ class Railway {
     final int port
     final HttpServer server
     final ContentHandler contentHandler
+    @Getter
+    boolean started
 
     /**
      * Instantiates a new Railway server
@@ -29,6 +32,8 @@ class Railway {
      * Starts the server.
      */
     void start() {
+        if (isStarted()) throw new RailwayException('Server already started')
+        this.started = true
         this.server.createContext('/', this.contentHandler)
         this.server.setExecutor(null)
         this.server.start()
@@ -38,6 +43,7 @@ class Railway {
      * Stops the server.
      */
     void stop() {
+        if (!isStarted()) throw new RailwayException('Server not started yet')
         this.server.stop(0)
     }
 
