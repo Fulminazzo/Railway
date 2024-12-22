@@ -80,11 +80,11 @@ class ContentHandler implements HttpHandler {
      * @throws ContentHandlerException the exception thrown in case of error
      */
     @NotNull File resolvePathSingle(@NotNull String path) throws ContentHandlerException {
-        def file = new File(this.root, path)
+        def file = getFileFromRootDir(path)
         if (file.isFile()) return file
         else if (file.isDirectory()) {
             for (def ext : INDEXES_EXTENSIONS) {
-                def f = new File(file, "${INDEX_NAME}.${ext}")
+                def f = getFileFromRootDir("${path}${File.separator}${INDEX_NAME}.${ext}")
                 if (f.isFile()) return f
             }
             throw new ContentHandlerException('Could not find path: ' + path)
@@ -95,7 +95,7 @@ class ContentHandler implements HttpHandler {
                 throw new ContentHandlerException('Could not find path: ' + path)
             else {
                 for (def ext : INDEXES_EXTENSIONS) {
-                    file = new File(this.root, "${path}.${ext}")
+                    file = getFileFromRootDir("${path}.${ext}")
                     if (file.isFile()) return file
                 }
                 throw new ContentHandlerException('Could not find path: ' + path)
