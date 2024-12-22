@@ -83,8 +83,8 @@ class ContentHandler implements HttpHandler {
         if (file.isFile()) return file
         else if (file.isDirectory()) {
             for (def ext : INDEXES_EXTENSIONS) {
-                file = new File(file, "${INDEX_NAME}.${ext}")
-                if (file.isFile()) return file
+                def f = new File(file, "${INDEX_NAME}.${ext}")
+                if (f.isFile()) return f
             }
             throw new ContentHandlerException('Could not find path: ' + path)
         } else {
