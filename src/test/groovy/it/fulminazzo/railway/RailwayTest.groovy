@@ -21,12 +21,8 @@ class RailwayTest extends Specification {
 
     @Ignore
     def 'test server manually'() {
-        when:
-        railway.start()
-
-        then:
+        expect:
         while (railway.isStarted());
-
     }
 
     def 'test get'() {
