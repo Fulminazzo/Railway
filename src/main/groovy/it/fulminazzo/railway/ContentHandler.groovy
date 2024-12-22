@@ -67,23 +67,26 @@ class ContentHandler implements HttpHandler {
 
     @Override
     void handle(HttpExchange httpExchange) throws IOException {
-        def requesterIp = httpExchange.getRemoteAddress().getHostName()
+        def requesterIp = httpExchange.remoteAddress.hostName
         def method = httpExchange.requestMethod
         def path = httpExchange.requestURI.path
-        def output = httpExchange.getResponseBody()
-        Tuple response
+        HTTPResponse response
 
         this.logger.info("${requesterIp} -> ${httpExchange.requestMethod} ${path}")
 
         switch (method) {
-            case "GET" -> response = handleGET(httpExchange, path, output)
-            default -> {
-                response = getMessageFromCode(501)
-                httpExchange.sendResponseHeaders(response[0], 0)
-            }
+            case "GET" -> response = handleGET(path)
+            default -> response = getCodeFromMessage('Not implemented', null)
         }
 
-        this.logger.info("${requesterIp} <- ${response[0]} ${response[1]}")
+        def responseCode = response.responseCode
+        def responseBody = response.body
+        def output = httpExchange.responseBody
+
+        this.logger.info("${requesterIp} <- ${responseCode} ${response.path}")
+
+        httpExchange.sendResponseHeaders(responseCode, responseBody.available())
+        output << responseBody
         output.close()
     }
 
