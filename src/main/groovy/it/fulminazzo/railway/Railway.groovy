@@ -105,8 +105,10 @@ class Railway {
             railwayServer.start()
 
             Runtime.getRuntime().addShutdownHook {
-                railwayServer.stop()
-                railwayServer = null
+                if (railwayServer != null) {
+                    railwayServer.stop()
+                    railwayServer = null
+                }
             }
         } catch (RailwayException | ContentHandlerException e) {
             System.err.println(e.message)
