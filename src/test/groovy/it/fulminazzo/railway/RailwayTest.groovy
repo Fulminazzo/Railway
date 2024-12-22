@@ -5,11 +5,12 @@ import spock.lang.Specification
 class RailwayTest extends Specification {
     static final PORT = 8123
     static final ROOT_DIR = 'build/resources/test'
+    static final THREADS = 10
 
     Railway railway
 
     def setup() {
-        this.railway = new Railway(PORT, ROOT_DIR)
+        this.railway = new Railway(PORT, THREADS, ROOT_DIR)
     }
 
     def tearDown() {
@@ -20,7 +21,7 @@ class RailwayTest extends Specification {
         given:
         def path = 'content_handler'
         def url = new URL("http://localhost:${PORT}/${path}")
-        HttpURLConnection connection = url.openConnection()
+        HttpURLConnection connection = url.openConnection() as HttpURLConnection
 
         when:
         this.railway.start()
