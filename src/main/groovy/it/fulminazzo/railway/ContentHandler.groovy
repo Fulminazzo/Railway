@@ -76,8 +76,8 @@ class ContentHandler implements HttpHandler {
         switch (method) {
             case "GET" -> response = handleGET(httpExchange, path, output)
             default -> {
-                //TODO: not implemented
-                throw new RuntimeException()
+                response = getMessageFromCode(501)
+                httpExchange.sendResponseHeaders(response.get(0), 0)
             }
         }
 
