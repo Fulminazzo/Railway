@@ -95,14 +95,16 @@ class ContentHandler implements HttpHandler {
      * @return the HTTP response
      */
     @NotNull HTTPResponse handleGET(@NotNull String path) {
+        HTTPCode code
         File file
         try {
+            code = HTTPCode.OK
             file = resolvePath(path)
         } catch (ContentHandlerException e) {
             //TODO: 404 page
             throw new RuntimeException(e)
         }
-        return new HTTPResponse(CODES_MAP['OK'], file.getPath(), file.newInputStream())
+        return new HTTPResponse(code, file.getPath(), file.newInputStream())
     }
 
     /**
