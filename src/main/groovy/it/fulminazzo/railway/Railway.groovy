@@ -137,7 +137,7 @@ class Railway {
             def tmp = string as Integer
             if (tmp >= 0) return tmp
         }
-        throw new RailwayException("Invalid port \"${string}\". A number higher than 0 is required.")
+        throw new RailwayException("Invalid natural \"${string}\". A number higher than 0 is required.")
     }
 
 }
