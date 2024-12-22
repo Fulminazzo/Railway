@@ -92,10 +92,9 @@ class ContentHandler implements HttpHandler {
      * @param httpExchange the http exchange
      * @param path the path of the request
      * @param output the output where to write the body
-     * @return a tuple containing the code and the returned path (for logging purposes)
+     * @return the HTTP response
      */
-    Tuple handleGET(@NotNull HttpExchange httpExchange, @NotNull String path, @NotNull OutputStream output) {
-        def response = 200
+    @NotNull HTTPResponse handleGET(@NotNull String path) {
         File file
         try {
             file = resolvePath(path)
@@ -103,9 +102,7 @@ class ContentHandler implements HttpHandler {
             //TODO: 404 page
             throw new RuntimeException(e)
         }
-        httpExchange.sendResponseHeaders(response, file.length())
-        output << file.newInputStream()
-        return new Tuple(response, file.getPath())
+        return new HTTPResponse(CODES_MAP['OK'], file.getPath(), file.newInputStream())
     }
 
     /**
