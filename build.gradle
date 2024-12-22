@@ -24,6 +24,9 @@ dependencies {
     // Groovy
     implementation libs.groovy
 
+    // Logger
+    implementation libs.slf4j
+
     // Spock
     testImplementation libs.spock
     testRuntimeOnly libs.byte.buddy
