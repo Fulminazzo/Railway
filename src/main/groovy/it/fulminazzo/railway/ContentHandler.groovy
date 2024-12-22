@@ -230,8 +230,13 @@ class ContentHandler implements HttpHandler {
      */
     @NotNull HTTPResponse runScript(@NotNull File scriptFile, @NotNull HttpExchange httpExchange) {
         if (httpExchange == null) throw new ContentHandlerException('Expected httpExchange to not be null')
-        return new GroovyShell().parse(scriptFile).with {
-            return handle(httpExchange)
+        try {
+            return new GroovyShell().parse(scriptFile).with {
+                return handle(httpExchange)
+            }
+        } catch (Throwable e) {
+            this.logger.error("Error was caught while executing script: ${scriptFile.path}", e)
+            return new HTTPResponse(HTTPCode.INTERNAL_SERVER_ERROR)
         }
     }
 
