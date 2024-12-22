@@ -109,13 +109,16 @@ class ContentHandler implements HttpHandler {
      * Uses {@link #CODES_MAP} to get the respective message from the given code.
      *
      * @param code the code
-     * @return the message from the code
+     * @param path the path from which take the default body
+     * @return the HTTP response
      * @throws ContentHandlerException the exception thrown in case the message is not found
      */
-    static Tuple getMessageFromCode(int code) throws ContentHandlerException {
-        def message = CODES_MAP[code]
-        if (message == null) throw new ContentHandlerException("Could not find error code ${code}")
-        return new Tuple(code, message)
+    @NotNull HTTPResponse getCodeFromMessage(@NotNull String message, @Nullable String path) throws ContentHandlerException {
+        def code = CODES_MAP[message]
+        if (code == null) throw new ContentHandlerException("Could not find error code ${message}")
+        if (path == null) return new HTTPResponse(code, message, '')
+        File file = new File(this.root, path)
+        return new HTTPResponse(code, file.getPath(), file.newInputStream())
     }
 
     /**
