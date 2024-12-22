@@ -33,4 +33,26 @@ class RailwayTest extends Specification {
         connection.inputStream.bytes == new File("${ROOT_DIR}/${path}", 'index.html').bytes
     }
 
+    def 'test getNatural valid bounds'() {
+        when:
+        Railway.getNatural(string)
+
+        then:
+        notThrown(RailwayException)
+
+        where:
+        string << ['0', '1', '2', '3']
+    }
+
+    def 'test getNatural invalid bounds'() {
+        when:
+        Railway.getNatural(string)
+
+        then:
+        thrown(RailwayException)
+
+        where:
+        string << ['-1', "${Integer.MIN_VALUE}".toString()]
+    }
+
 }
