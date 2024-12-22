@@ -29,4 +29,5 @@ logger = [ "slf4j", "logback" ]
 
 [plugins]
 groovy = { id = "groovy" }
+jacoco = { id = "jacoco-report-aggregation" }
 delombok = { id = "io.freefair.lombok", version.ref = "delombok" }
