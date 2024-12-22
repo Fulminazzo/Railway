@@ -99,12 +99,13 @@ class Railway {
      * @return the port
      */
     static int getPort(@NotNull String string) throws RailwayException {
-        if (string.isNumber()) {
-            def tmp = string as Integer
-            if (tmp >= 0 && tmp <= 65535)
-                return tmp
+        try {
+            def tmp = getNatural(string)
+            if (tmp >= 65536) throw new RailwayException('')
+            else return tmp
+        } catch (RailwayException ignored) {
+            throw new RailwayException("Invalid port \"${string}\". A number between 0 and 65535 is required.")
         }
-        throw new RailwayException("Invalid port \"${string}\". A number higher than 0 is required.")
     }
 
     /**
