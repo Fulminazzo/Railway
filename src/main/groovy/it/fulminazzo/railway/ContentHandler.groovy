@@ -79,7 +79,7 @@ class ContentHandler implements HttpHandler {
         def responseBody = response.body
         def output = httpExchange.responseBody
 
-        this.logger.info("${requesterIp} <- ${responseCode} ${response.path}")
+        this.logger.info("${requesterIp} <- ${responseCode} ${response.message}")
 
         httpExchange.sendResponseHeaders(responseCode, responseBody.available())
         output << responseBody
