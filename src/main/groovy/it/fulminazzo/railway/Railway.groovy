@@ -77,9 +77,9 @@ class Railway {
                     println 'The port and rootDir parameters are optional.'
                     return
                 }
-                port = getPort(args[0])
+                rootDir = args[0]
             }
-            if (args.length > 1) rootDir = args[1]
+            if (args.length > 1) port = getPort(args[1])
 
             server = new Railway(port, rootDir)
             server.start()
