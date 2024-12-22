@@ -10,6 +10,9 @@ import org.slf4j.Logger
  */
 class ContentHandler implements HttpHandler {
     static final INDEX_NAME = 'index.html'
+    static final CODES_MAP = [
+            501 : "Not implemented"
+    ]
 
     final @NotNull File root
     final @NotNull Logger logger
@@ -102,6 +105,19 @@ class ContentHandler implements HttpHandler {
         httpExchange.sendResponseHeaders(response, file.length())
         output << file.newInputStream()
         return new Tuple(response, file.getPath())
+    }
+
+    /**
+     * Uses {@link #CODES_MAP} to get the respective message from the given code.
+     *
+     * @param code the code
+     * @return the message from the code
+     * @throws ContentHandlerException the exception thrown in case the message is not found
+     */
+    static Tuple getMessageFromCode(int code) throws ContentHandlerException {
+        def message = CODES_MAP.get(code)
+        if (message == null) throw new ContentHandlerException("Could not find error code ${code}")
+        return new Tuple(code, message)
     }
 
 }
