@@ -3,6 +3,7 @@ package it.fulminazzo.railway
 import com.sun.net.httpserver.HttpServer
 import lombok.Getter
 import org.jetbrains.annotations.NotNull
+import org.jetbrains.annotations.Nullable
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -34,7 +35,7 @@ class Railway {
      * @param rootDir         the root directory
      * @param notFoundPage    the page with the not found response
      */
-    Railway(int port, int executorThreads, @NotNull String rootDir, @NotNull String notFoundPage) {
+    Railway(int port, int executorThreads, @NotNull String rootDir, @Nullable String notFoundPage) {
         this.port = port
         this.executorThreads = executorThreads
         this.logger = LoggerFactory.getLogger(getClass().simpleName)
