@@ -1,5 +1,6 @@
 package it.fulminazzo.railway
 
+import spock.lang.Ignore
 import spock.lang.Specification
 
 class RailwayTest extends Specification {
@@ -15,6 +16,16 @@ class RailwayTest extends Specification {
 
     def cleanupSpec() {
         if (railway.isStarted()) railway.stop()
+    }
+
+    @Ignore
+    def 'test server manually'() {
+        when:
+        railway.start()
+
+        then:
+        while (railway.isStarted());
+
     }
 
     def 'test server'() {
