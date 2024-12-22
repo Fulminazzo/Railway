@@ -10,13 +10,15 @@ class ContentHandlerScriptTest extends Specification {
 
     def 'test simple script'() {
         given:
+        def handler = new ContentHandler(System.getProperty('user.dir'), null,
+                LoggerFactory.getLogger(getClass()))
         def file = new File(ROOT_DIR, 'scripts/index.groovy')
         def uri = new URI(path)
         def exchange = Mock(HttpExchange)
         exchange.requestURI >> uri
 
         when:
-        def response = ContentHandler.runScript(file, exchange)
+        def response = handler.runScript(file, exchange)
         def responseBody = new String(response.body.bytes)
 
         then:
