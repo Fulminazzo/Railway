@@ -13,7 +13,7 @@ class RailwayTest extends Specification {
 
     def setupSpec() {
         notFoundFile = new File("${ROOT_DIR}${File.separator}not_found.html")
-        railway = new Railway(PORT, THREADS, ROOT_DIR, notFoundFile.getPath())
+        railway = new Railway(PORT, THREADS, ROOT_DIR, notFoundFile.getAbsolutePath())
         railway.start()
     }
 
