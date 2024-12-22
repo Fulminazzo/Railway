@@ -111,14 +111,14 @@ class ContentHandler implements HttpHandler {
      * @return the file (if not found, will return a file with the remaining not found path)
      */
     @NotNull File getFileFromRootDir(@NotNull String path) {
-        def tmp = path.split('/')
+        def tmp = path.split('/').findAll{ !it.isEmpty() }
         def file = this.root
-        for (i in 0 .. tmp.length - 1) {
+        for (i in 0 .. tmp.size() - 1) {
             if (file.isDirectory()) {
                 def files = file.listFiles()
                 if (files != null) {
                     def curr = tmp[i]
-                    def actual = files.collect { it.name }.find { curr.equalsIgnoreCase(it) }
+                    def actual = files.collect {  it.name }.find { curr.equalsIgnoreCase(it) }
                     if (actual != null) {
                         file = new File(file, actual)
                         continue
