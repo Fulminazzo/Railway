@@ -33,6 +33,32 @@ class RailwayTest extends Specification {
         connection.inputStream.bytes == new File("${ROOT_DIR}/${path}", 'index.html').bytes
     }
 
+    def 'test getPort valid bounds'() {
+        when:
+        Railway.getPort(string)
+
+        then:
+        notThrown(RailwayException)
+
+        where:
+        string << ['0', '1', '2', '3', '65535']
+    }
+
+    def 'test getPort invalid bounds'() {
+        when:
+        Railway.getPort(string)
+
+        then:
+        thrown(RailwayException)
+
+        where:
+        string << [
+                '-1', '65536',
+                "${Integer.MIN_VALUE}".toString(),
+                "${Integer.MAX_VALUE}".toString(),
+        ]
+    }
+
     def 'test getNatural valid bounds'() {
         when:
         Railway.getNatural(string)
