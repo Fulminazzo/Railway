@@ -111,7 +111,7 @@ class ContentHandler implements HttpHandler {
      * Represents a holder for contents of a HTTP response.
      */
     static class HTTPResponse {
-        final HTTPCode responseCode
+        final int responseCode
         final String message
         final InputStream body
 
@@ -123,7 +123,7 @@ class ContentHandler implements HttpHandler {
          * @param body         the body itself
          */
         HTTPResponse(@NotNull HTTPCode responseCode, @NotNull String message, @NotNull InputStream body) {
-            this.responseCode = responseCode
+            this.responseCode = responseCode.code
             this.message = Objects.requireNonNull(message, 'Expected message to not be null')
             this.body = Objects.requireNonNull(body, 'Expected body to not be null')
         }
