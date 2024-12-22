@@ -3,7 +3,6 @@ package it.fulminazzo.railway
 import com.sun.net.httpserver.HttpExchange
 import com.sun.net.httpserver.HttpHandler
 import org.jetbrains.annotations.NotNull
-import org.jetbrains.annotations.Nullable
 import org.slf4j.Logger
 
 /**
@@ -13,19 +12,26 @@ class ContentHandler implements HttpHandler {
     static final INDEX_NAME = 'index.html'
 
     final @NotNull File root
+    final @NotNull File notFoundPage
     final @NotNull Logger logger
 
     /**
      * Instantiates a new ContextHandler
      *
-     * @param rootDirPath the root directory path
-     * @param logger      the logger
+     * @param rootDirPath  the root directory path
+     * @param notFoundPage the page that represents the not found page
+     * @param logger       the logger
      */
-    ContentHandler(@NotNull String rootDirPath, @NotNull Logger logger) {
+    ContentHandler(@NotNull String rootDirPath, @NotNull String notFoundPage, @NotNull Logger logger) {
         this.root = new File(rootDirPath)
-        this.logger = logger
         if (!this.root.isDirectory())
             throw new ContentHandlerException('Could not find directory at path: ' + rootDirPath)
+        File notFound = new File(notFoundPage)
+        if (!notFound.isFile()) notFound = new File(this.root, notFoundPage)
+        if (!notFound.isFile())
+            throw new ContentHandlerException('Could not find not found page at path: ' + notFoundPage)
+        this.notFoundPage = notFound
+        this.logger = logger
     }
 
     /**
