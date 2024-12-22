@@ -80,20 +80,22 @@ class Railway {
         try {
             def port = DEFAULT_PORT
             def rootDir = System.getProperty('user.dir')
+            def notFoundPage = null
             def threads = DEFAULT_EXECUTOR_THREADS
 
             if (args.length > 0) {
                 if (args[0] == '--help' || args[0] == '-h') {
-                    println 'Usage: java -jar railway.jar <rootDir> <port> <threads>'
+                    println 'Usage: java -jar railway.jar <rootDir> <port> <notFoundPage> <threads>'
                     println 'The port and rootDir parameters are optional.'
                     return
                 }
                 rootDir = args[0]
             }
             if (args.length > 1) port = getPort(args[1])
-            if (args.length > 2) threads = getNatural(args[2])
+            if (args.length > 2) notFoundPage = args[2]
+            if (args.length > 3) threads = getNatural(args[3])
 
-            server = new Railway(port, threads, rootDir)
+            server = new Railway(port, threads, rootDir, notFoundPage)
             server.start()
         } catch (RailwayException | ContentHandlerException e) {
             System.err.println(e.message)
