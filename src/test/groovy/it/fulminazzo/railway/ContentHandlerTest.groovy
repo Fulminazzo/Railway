@@ -8,6 +8,7 @@ class ContentHandlerTest extends Specification {
 
     void setup() {
         this.contentHandler = new ContentHandler('build/resources/test',
+                null,
                 LoggerFactory.getLogger(getClass()))
     }
 
