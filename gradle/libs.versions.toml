@@ -1,4 +1,5 @@
 [versions]
+shadow = "8.1.1"
 delombok = "8.4"
 
 lombok = "1.18.30"
@@ -29,4 +30,5 @@ logger = [ "slf4j", "logback" ]
 
 [plugins]
 groovy = { id = "groovy" }
+shadow = { id = "com.github.johnrengelman.shadow", version.ref = "shadow" }
 delombok = { id = "io.freefair.lombok", version.ref = "delombok" }
