@@ -122,6 +122,44 @@ class ContentHandler implements HttpHandler {
     }
 
     /**
+     * Connects to the given link using the specified method and headers.
+     * Then, returns the body received.
+     *
+     * @param link    the link
+     * @param method  the HTTP method
+     * @return the body
+     * @throws ContentHandlerException thrown in case of any error
+     */
+    static @NotNull InputStream requestWebsite(@NotNull String link, @NotNull String method) throws ContentHandlerException {
+        requestWebsite(link, method, null)
+    }
+
+    /**
+     * Connects to the given link using the specified method and headers.
+     * Then, returns the body received.
+     *
+     * @param link    the link
+     * @param method  the HTTP method
+     * @param headers the headers to use for the connection
+     * @return the body
+     * @throws ContentHandlerException thrown in case of any error
+     */
+    static @NotNull InputStream requestWebsite(@NotNull String link, @NotNull String method,
+                                               @Nullable Map<String, String> headers) throws ContentHandlerException {
+        try {
+            def url = new URL(link)
+            HttpURLConnection connection = url.openConnection() as HttpURLConnection
+            connection.setRequestMethod(method)
+            if (headers != null) headers.forEach { k, v -> connection.setRequestProperty(k, v) }
+            connection.connect()
+
+            return connection.inputStream
+        } catch (IOException e) {
+            throw new ContentHandlerException("Could not ${method} website: ${link}", e)
+        }
+    }
+
+    /**
      * Represents a holder for contents of a HTTP response.
      */
     static class HTTPResponse {
