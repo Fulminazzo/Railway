@@ -77,7 +77,6 @@ class Railway {
      * @param args the arguments passed
      */
     static void main(String[] args) {
-        Railway server
         try {
             def port = DEFAULT_PORT
             def rootDir = System.getProperty('user.dir')
@@ -97,7 +96,7 @@ class Railway {
             if (args.length > 3) threads = getNatural(args[3])
 
             println 'Starting server. Press CTRL + C to stop'
-            server = new Railway(port, threads, rootDir, notFoundPage)
+            def server = new Railway(port, threads, rootDir, notFoundPage)
             server.start()
 
             Runtime.getRuntime().addShutdownHook {
@@ -105,8 +104,6 @@ class Railway {
             }
         } catch (RailwayException | ContentHandlerException e) {
             System.err.println(e.message)
-        } finally {
-            if (server != null) server.stop()
         }
     }
 
