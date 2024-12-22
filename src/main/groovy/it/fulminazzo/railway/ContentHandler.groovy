@@ -62,15 +62,18 @@ class ContentHandler implements HttpHandler {
 
     @Override
     void handle(HttpExchange httpExchange) throws IOException {
+        def requesterIp = httpExchange.getRemoteAddress().getHostName()
         def response = 200
         File file
         try {
             def path = httpExchange.requestURI.path
+            this.logger.info("${requesterIp} -> ${httpExchange.requestMethod} ${path}")
             file = resolvePath(path)
         } catch (ContentHandlerException e) {
             //TODO: 404 page
             throw new RuntimeException(e)
         }
+        this.logger.info("${requesterIp} <- ${response} ${file.path}")
         httpExchange.sendResponseHeaders(response, file.length())
         def output = httpExchange.getResponseBody()
         output << file
