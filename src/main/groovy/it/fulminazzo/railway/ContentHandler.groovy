@@ -129,7 +129,7 @@ class ContentHandler implements HttpHandler {
      * Represents a holder for contents of a HTTP response.
      */
     static class HTTPResponse {
-        final int responseCode
+        final HTTPCode responseCode
         final String path
         final InputStream body
 
@@ -140,7 +140,7 @@ class ContentHandler implements HttpHandler {
          * @param path         the path of the body
          * @param body         the body itself
          */
-        HTTPResponse(int responseCode, @NotNull String path, @NotNull InputStream body) {
+        HTTPResponse(@NotNull HTTPCode responseCode, @NotNull String path, @NotNull InputStream body) {
             this.responseCode = responseCode
             this.path = Objects.requireNonNull(path, 'Expected path to not be null')
             this.body = Objects.requireNonNull(body, 'Expected body to not be null')
@@ -153,7 +153,7 @@ class ContentHandler implements HttpHandler {
          * @param path         the path of the body
          * @param body         the body itself
          */
-        HTTPResponse(int responseCode, String path, String body) {
+        HTTPResponse(@NotNull HTTPCode responseCode, String path, String body) {
             this(responseCode, path, new ByteArrayInputStream(body.bytes))
         }
 
