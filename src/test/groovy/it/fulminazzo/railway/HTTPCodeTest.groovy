@@ -4,7 +4,7 @@ import spock.lang.Specification
 
 class HTTPCodeTest extends Specification {
 
-    def "test getMessage method"() {
+    def 'test getMessage method'() {
         expect:
         code.getMessage() == expected
 
