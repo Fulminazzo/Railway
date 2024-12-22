@@ -22,6 +22,7 @@ class RailwayMainTest extends Specification {
         System.out.println this.out.toString()
         System.err = this.previousErr
         System.err.println this.err.toString()
+        Railway.railwayServer = null
     }
 
     def 'test normal functioning'() {
