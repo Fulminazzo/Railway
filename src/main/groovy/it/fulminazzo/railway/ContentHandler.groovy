@@ -103,6 +103,33 @@ class ContentHandler implements HttpHandler {
         }
     }
 
+    /**
+     * Tries to get the given path from the {@link #root} directory.
+     * This function is CaSe InSeNsItIvE.
+     *
+     * @param path the path
+     * @return the file (if not found, will return a file with the remaining not found path)
+     */
+    @NotNull File getFileFromRootDir(@NotNull String path) {
+        def tmp = path.split('/')
+        def file = this.root
+        for (i in 0 .. tmp.length - 1) {
+            if (file.isDirectory()) {
+                def files = file.listFiles()
+                if (files != null) {
+                    def curr = tmp[i]
+                    def actual = files.collect { it.name }.find { curr.equalsIgnoreCase(it) }
+                    if (actual != null) {
+                        file = new File(file, actual)
+                        continue
+                    }
+                }
+            }
+            return new File(file, tmp[i .. -1].join('/'))
+        }
+        return file
+    }
+
     @Override
     void handle(HttpExchange httpExchange) throws IOException {
         def requesterIp = httpExchange.remoteAddress.hostName
