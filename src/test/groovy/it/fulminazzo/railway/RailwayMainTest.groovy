@@ -36,6 +36,18 @@ class RailwayMainTest extends Specification {
         Railway.railwayServer.stop()
     }
 
+    def 'test help'() {
+        when:
+        Railway.main(new String[]{argument})
+
+        then:
+        this.out.toString().contains('Usage')
+        Railway.railwayServer == null
+
+        where:
+        argument << ['--help', '-h']
+    }
+
     def 'test invalid arguments'() {
         when:
         Railway.main(args.toArray(new String[0]))
