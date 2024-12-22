@@ -72,7 +72,7 @@ class ContentHandler implements HttpHandler {
 
         switch (method) {
             case 'GET' -> response = handleGET(path)
-            default -> response = getCodeFromMessage('Not implemented', null)
+            default -> response = new HTTPResponse(HTTPCode.NOT_IMPLEMENTED)
         }
 
         def responseCode = response.responseCode
