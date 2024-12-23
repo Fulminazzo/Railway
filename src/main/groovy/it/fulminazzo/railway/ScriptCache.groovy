@@ -43,7 +43,7 @@ class ScriptCache implements Function<HttpExchange, ContentHandler.HTTPResponse>
      * if so it updates it using {@link #loadScript()}.
      */
     void checkUpdate() {
-        if (this.scriptFile.lastModified() >= this.lastModified) loadScript()
+        if (this.scriptFile.lastModified() > this.lastModified) loadScript()
     }
 
     @Override
