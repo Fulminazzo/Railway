@@ -18,6 +18,7 @@ class ContentHandler implements HttpHandler {
     final @NotNull File root
     final @Nullable File notFoundPage
     final @NotNull Logger logger
+    final @NotNull Map<String, ScriptCache> scriptCaches;
 
     /**
      * Instantiates a new ContextHandler
@@ -39,6 +40,7 @@ class ContentHandler implements HttpHandler {
             this.notFoundPage = notFound
         }
         this.logger = logger
+        this.scriptCaches = new LinkedHashMap<>()
     }
 
     /**
@@ -233,15 +235,8 @@ class ContentHandler implements HttpHandler {
      * @return the HTTPResponse returned by the method
      */
     @NotNull HTTPResponse runScript(@NotNull File scriptFile, @NotNull HttpExchange httpExchange) {
-        if (httpExchange == null) throw new ContentHandlerException('Expected httpExchange to not be null')
-        try {
-            return new GroovyShell().parse(scriptFile).with {
-                return handle(httpExchange)
-            }
-        } catch (Throwable e) {
-            this.logger.error("Error was caught while executing script: ${scriptFile.path}", e)
-            return new HTTPResponse(HTTPCode.INTERNAL_SERVER_ERROR)
-        }
+        return this.scriptCaches.computeIfAbsent(scriptFile.absolutePath, p ->
+                new ScriptCache(new File(p), this.logger)).apply(httpExchange)
     }
 
     /**
