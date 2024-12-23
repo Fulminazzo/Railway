@@ -6,23 +6,43 @@ import org.slf4j.Logger
 
 import java.util.function.Function
 
+/**
+ * Represents a general {@link Function} that executes the given {@link File} as a <b>Groovy script</b>.
+ * It does so by first loading it to memory,
+ * then for each call to the {@link ScriptCache#apply(HttpExchange)} function,
+ * it checks whether the file was recently modified,
+ * and updates the code by loading it again.
+ */
 class ScriptCache implements Function<HttpExchange, ContentHandler.HTTPResponse> {
     final File scriptFile
     final Logger logger
     Script script
     long lastModified
 
+    /**
+     * Instantiates a new Script cache.
+     *
+     * @param scriptFile the script file
+     * @param logger     the logger
+     */
     ScriptCache(@NotNull File scriptFile, @NotNull Logger logger) {
         this.scriptFile = Objects.requireNonNull(scriptFile, 'Expected script file to not be null')
         this.logger = Objects.requireNonNull(logger, 'Expected logger to not be null')
     }
 
-    def loadScript() {
+    /**
+     * Forcibly loads the script into memory.
+     */
+    void loadScript() {
         this.script = new GroovyShell().parse(this.scriptFile)
         this.lastModified = this.scriptFile.lastModified()
     }
 
-    def checkUpdate() {
+    /**
+     * Checks whether the file was modified,
+     * if so it updates it using {@link #loadScript()}.
+     */
+    void checkUpdate() {
         if (this.scriptFile.lastModified() >= this.lastModified) loadScript()
     }
 
