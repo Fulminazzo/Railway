@@ -4,6 +4,7 @@ import com.sun.net.httpserver.Headers
 import com.sun.net.httpserver.HttpExchange
 import org.slf4j.LoggerFactory
 import spock.lang.Specification
+import spock.lang.Unroll
 
 class ContentHandlerScriptTest extends Specification {
     final static String ROOT_DIR = 'build/resources/test'
@@ -52,6 +53,37 @@ class ContentHandlerScriptTest extends Specification {
         then:
         responseBody == 'No name provided!'
         output.toString() == 'No name provided!'
+    }
+
+    @Unroll('test iteration: #i')
+    def 'test cached script timings'() {
+        given:
+        def handler = new ContentHandler(System.getProperty('user.dir'), null,
+                LoggerFactory.getLogger(getClass()))
+
+        when:
+        def first = runScriptTimed(handler)
+        def second = runScriptTimed(handler)
+
+        then:
+        first[0].responseCode == HTTPCode.OK.code
+        second[0].responseCode == HTTPCode.OK.code
+        first[0].message == '/scripts/index.groovy'
+        second[0].message == '/scripts/index.groovy'
+        second[1] < first[1]
+
+        where:
+        i << (1..100)
+    }
+
+    Tuple<?> runScriptTimed(ContentHandler handler) {
+        def file = new File(ROOT_DIR, 'scripts/index.groovy')
+        def exchange = Mock(HttpExchange)
+        exchange.requestURI >> new URI('/scripts/index.groovy/Michael')
+        def start = System.currentTimeMillis()
+        def response = handler.runScript(file, exchange)
+        def end = System.currentTimeMillis()
+        return new Tuple<>(response, end - start)
     }
 
 }
