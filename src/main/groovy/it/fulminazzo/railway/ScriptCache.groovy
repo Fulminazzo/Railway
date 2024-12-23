@@ -48,8 +48,14 @@ class ScriptCache implements Function<HttpExchange, ContentHandler.HTTPResponse>
 
     @Override
     ContentHandler.HTTPResponse apply(HttpExchange httpExchange) {
-        checkUpdate()
-        return this.script.with { return handle(httpExchange) }
+        if (httpExchange == null) throw new ContentHandlerException('Expected httpExchange to not be null')
+        try {
+            checkUpdate()
+            return this.script.with { return handle(httpExchange) }
+        } catch (Throwable e) {
+            this.logger.error("Error was caught while executing script: ${this.scriptFile.path}", e)
+            return new ContentHandler.HTTPResponse(HTTPCode.INTERNAL_SERVER_ERROR)
+        }
     }
 
 }
